@@ -10,6 +10,8 @@ import (
 	"gopkg.in/mgo.v2"
 )
 
+var cache []model.Usuario
+
 //CriarUsuario cadastra usuario no banco
 func CriarUsuario(sessao *mgo.Session, w http.ResponseWriter, r *http.Request) {
 	copiaSessao := sessao.Copy()
@@ -17,11 +19,11 @@ func CriarUsuario(sessao *mgo.Session, w http.ResponseWriter, r *http.Request) {
 	usuario := model.Usuario{}
 
 	decoder := json.NewDecoder(r.Body)
+
 	if err := decoder.Decode(&usuario); err != nil {
 		return
 	}
 	defer r.Body.Close()
-
 	c := copiaSessao.DB("meupacote").C("usuario")
 	err2 := c.Insert(usuario)
 	if nil != err2 {
@@ -41,16 +43,29 @@ func CriarUsuario(sessao *mgo.Session, w http.ResponseWriter, r *http.Request) {
 
 //BuscaUsuarios retorna todos os usuarios cadastros na base
 func BuscaUsuarios(sessao *mgo.Session, w http.ResponseWriter, r *http.Request) {
-	copiaSessao := sessao.Copy()
-	defer copiaSessao.Close()
 
-	c := copiaSessao.DB("meupacote").C("usuario")
-	var results []model.Usuario
+	if len(cache) < 1 {
+		log.Println("Buscando usuarios do banco e inserindo no cache")
+		copiaSessao := sessao.Copy()
+		defer copiaSessao.Close()
 
-	err := c.Find(nil).All(&results)
-	if err != nil {
-		respondeErro(w, http.StatusInternalServerError, err.Error())
+		c := copiaSessao.DB("meupacote").C("usuario")
+		var results []model.Usuario
+
+		err := c.Find(nil).All(&results)
+		cache = results
+
+		if err != nil {
+			respondeErro(w, http.StatusInternalServerError, err.Error())
+		}
+
 	} else {
-		respondeJSON(w, http.StatusCreated, results)
+		log.Println("Usuarios vindos do cache")
 	}
+
+	respondeJSON(w, http.StatusOK, cache)
+}
+
+func inserePacote(sessao *mgo.Session, w http.ResponseWriter, r *http.Request) {
+
 }
