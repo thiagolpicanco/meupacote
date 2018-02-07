@@ -3,7 +3,7 @@
 
 ## Projeto utilizado para testar aprendizado em golang
 
-Projeto utuliza:
+Projeto utiliza:
 ```
 Gorilla Mux
 MongoDB
