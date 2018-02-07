@@ -12,7 +12,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/meupacote/app/model"
+	"github.com/thiagolpicanco/meupacote/app/model"
 	"gopkg.in/mgo.v2"
 )
 

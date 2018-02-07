@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/meupacote/app"
-	"github.com/meupacote/config"
+	"github.com/thiagolpicanco/meupacote/app"
+	"github.com/thiagolpicanco/meupacote/config"
 )
 
 func main() {

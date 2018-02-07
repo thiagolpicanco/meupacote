@@ -7,8 +7,8 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/meupacote/app/handlers"
-	"github.com/meupacote/config"
+	"github.com/thiagolpicanco/meupacote/app/handlers"
+	"github.com/thiagolpicanco/meupacote/config"
 	"gopkg.in/mgo.v2"
 )
 
